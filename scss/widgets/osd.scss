@@ -1,0 +1,39 @@
+@use "variables" as vars;
+window.OSD {
+    box.OSD {
+        border-radius: 10px;
+        background-color: vars.$base00;
+        color: vars.$base05;
+        padding: 13px 16px;
+        margin: 13px;
+    }
+
+    icon {
+        font-size: 1.4rem;
+    }
+
+    label {
+        font-size: 1.1rem;
+    }
+
+    levelbar {
+        trough {
+            margin: 0 10px;
+            background: transparent;
+            border: none;
+            min-width: 100px;
+        }
+
+        block.filled {
+            border: none;
+            background: vars.$base0B;
+        }
+
+        block {
+            border-radius: 10px;
+            margin: 3px 0;
+            background: vars.$base01;
+            border: none;
+        }
+    }
+}

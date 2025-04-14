@@ -1,0 +1,29 @@
+@use "sass:color";
+@use "variables" as vars;
+
+window.Calendar {
+    color: vars.$base05;
+
+    box.container {
+        background-color: vars.$base00;
+        border: 2px solid vars.$base0B;
+        border-radius: 10px;
+        padding: 10px;
+        min-width: 200px;
+
+        calendar {
+            color: vars.$base05;
+            background: transparent;
+            border: none;
+
+            &:selected {
+                background: vars.$base0B;
+                color: vars.$base01;
+            }
+
+            &:indeterminate {
+                color: color.adjust($color: vars.$base05, $alpha: -0.4);
+            }
+        }
+    }
+}

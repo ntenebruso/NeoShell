@@ -1,0 +1,183 @@
+@use "sass:color";
+@use "variables" as vars;
+
+$radius: 7px;
+
+window.Bar {
+    border: none;
+    box-shadow: none;
+    background-color: vars.$base00;
+    color: vars.$base05;
+    font-size: 1.1em;
+    font-weight: bold;
+
+    .container {
+        padding: 5px 0;
+    }
+
+    .item {
+        padding: 0 10px;
+        border-radius: $radius;
+        background: vars.$base01;
+    }
+
+    .SysMenu {
+        margin-left: 5px;
+        margin-right: 10px;
+        min-width: 17px;
+
+        label {
+            color: vars.$base0B;
+            font-size: 1.2em;
+        }
+
+        label.dnd {
+            color: vars.$base09;
+        }
+    }
+
+    .Workspaces {
+        button {
+            all: unset;
+            background-color: transparent;
+
+            &:hover label {
+                background-color: color.adjust(vars.$base05, $alpha: -0.84);
+                border-color: color.adjust(vars.$base0B, $alpha: -0.8);
+            }
+
+            &:active label {
+                background-color: color.adjust(vars.$base05, $alpha: -0.8);
+            }
+        }
+
+        label {
+            transition: 200ms;
+            padding: 0 8px;
+            margin: 2px;
+            border-radius: $radius;
+            border: 1pt solid transparent;
+        }
+
+        .focused label {
+            color: vars.$base0B;
+        }
+    }
+
+    .Time {
+        color: vars.$base0C;
+    }
+
+    .IdleInhibitor {
+        font-family: "Mononoki Nerd Font Mono";
+        min-width: 15px;
+        margin-right: 10px;
+
+        button {
+            all: unset;
+            color: vars.$base0B;
+            font-size: 1.1em;
+        }
+    }
+
+    .CPUTemp {
+        margin-right: 10px;
+
+        .icon {
+            margin-right: 5px;
+            color: vars.$base0B;
+            font-size: 1.1em;
+        }
+    }
+
+    .MemUsage {
+        margin-right: 10px;
+
+        .icon {
+            margin-right: 5px;
+            color: vars.$base0B;
+            font-size: 1.1em;
+        }
+    }
+
+    .SysTray {
+        margin-right: 10px;
+
+        button {
+            all: unset;
+            padding: 0 4px;
+        }
+    }
+
+    .FocusedClient {
+        color: vars.$base0B;
+    }
+
+    .Media .Cover {
+        min-height: 1.2em;
+        min-width: 1.2em;
+        border-radius: $radius;
+        background-position: center;
+        background-size: contain;
+    }
+
+    .Battery {
+        margin-right: 5px;
+
+        icon {
+            color: vars.$base0B;
+        }
+
+        label {
+            margin-left: 5px;
+        }
+    }
+
+    .Brightness {
+        margin-right: 10px;
+
+        icon {
+            color: vars.$base0B;
+        }
+
+        label {
+            margin-left: 5px;
+        }
+    }
+
+    .AudioSlider {
+        margin-right: 10px;
+
+        * {
+            all: unset;
+        }
+
+        icon {
+            margin-right: 5px;
+            color: vars.$base0B;
+        }
+
+        label {
+            margin-left: 5px;
+        }
+
+        trough {
+            background-color: color.adjust(vars.$base05, $alpha: -0.8);
+            border-radius: $radius;
+        }
+
+        highlight {
+            background-color: vars.$base0B;
+            min-height: 10px;
+            border-radius: $radius;
+        }
+
+        slider {
+            background-color: vars.$base05;
+            border-radius: 2px;
+            min-height: 15px;
+            min-width: 10px;
+            margin: -5px 0;
+        }
+    }
+}

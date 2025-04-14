@@ -1,0 +1,27 @@
+@use "variables" as vars;
+window.PowerMenu {
+    box.container {
+        background: vars.$base00;
+        color: vars.$base05;
+        padding: 10px 0;
+        border-radius: 10px;
+
+        button {
+            min-width: 100px;
+            min-height: 100px;
+            margin: 0 10px;
+        }
+
+        button:focus {
+            border: 2px solid vars.$base0B;
+            box-shadow: none;
+            outline: none;
+        }
+
+        button .icon {
+            font-family: "Mononoki Nerd Font Mono";
+            color: vars.$base0B;
+            font-size: 3rem;
+        }
+    }
+}

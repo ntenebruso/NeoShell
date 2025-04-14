@@ -1,0 +1,72 @@
+@use "sass:color";
+@use "variables" as vars;
+
+window.SysMenu {
+    box.container {
+        min-width: 500px;
+        background: vars.$base00;
+        color: vars.$base05;
+        border: 2px solid vars.$base0B;
+        padding: 5px;
+        border-radius: 10px;
+
+        box.section {
+            margin: 10px 20px;
+
+            .icon {
+                all: unset;
+                margin-right: 10px;
+                font-size: 1.2em;
+                color: vars.$base0B;
+            }
+        }
+
+        box.Time {
+            label.time {
+                font-size: 1.7em;
+                font-weight: bold;
+            }
+
+            label.date {
+                font-size: 1.1em;
+            }
+        }
+
+        label.none {
+            color: color.adjust(vars.$base05, $alpha: -0.4);
+        }
+
+        box.Notifications {
+        }
+
+        box.Media {
+            box.player {
+                padding: 10px;
+                border: 2px solid vars.$base0C;
+                border-radius: 10px;
+
+                label.song {
+                    font-weight: bold;
+                }
+
+                box.progress {
+                    margin: 5px 0;
+
+                    levelbar trough {
+                        all: unset;
+                        margin: 0 5px;
+
+                        block.filled {
+                            background: vars.$base0B;
+                            border: none;
+                        }
+                    }
+                }
+
+                .btn-group button {
+                    margin: 0 3px;
+                }
+            }
+        }
+    }
+}

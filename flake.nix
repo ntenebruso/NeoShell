@@ -48,7 +48,7 @@
         if [ "$#" -eq 0 ]; then
             PRODUCTION=true exec ${self.packages.${system}.default}/bin/neoshell
         else
-            PRODUCTION=true exec ${ags.packages.${system}.io}/bin/astal -i neoshell "$*"
+            PRODUCTION=true exec ${ags.packages.${system}.io}/bin/astal -i neoshell "$@"
         fi
       '';
     };

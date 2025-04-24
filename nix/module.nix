@@ -37,7 +37,7 @@ in {
         Description = "NeoShell";
         Documentation = "https://github.com/ntenebruso/neoshell";
         PartOf = ["graphical-session.target"];
-        After = ["graphical-session-pre.target"];
+        After = ["graphical-session.target"];
       };
 
       Service = {

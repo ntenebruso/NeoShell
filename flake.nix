@@ -8,12 +8,19 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    astal = {
+      url = "github:aylur/astal";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ags }: let
+  outputs = { self, nixpkgs, ags, astal }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    agsPackages = with ags.packages.${system}; [
+    astalPackages = with astal.packages.${system}; [
+        astal3
+        io
         apps
         battery
         hyprland
@@ -23,23 +30,49 @@
         tray
         wireplumber
       ];
+    
+    extraPackages = astalPackages ++ [
+      pkgs.gtk3
+    ];
   in {
-    packages.${system}.default = ags.lib.bundle {
-      inherit pkgs;
-      src = ./.;
+    packages.${system}.default = pkgs.stdenv.mkDerivation {
       name = "neoshell";
+      src = ./.;
       entry = "app.ts";
-      gtk4 = false;
 
-      extraPackages = agsPackages;
+      nativeBuildInputs = with pkgs; [
+        wrapGAppsHook
+        gobject-introspection
+        ags.packages.${system}.default
+      ];
+
+      buildInputs = extraPackages ++ [
+        pkgs.gjs
+        pkgs.glib
+      ];
+
+      installPhase = ''
+        runHook preInstall
+
+        mkdir -p $out/bin
+        mkdir -p $out/share
+        cp -r * $out/share
+        ags bundle app.ts $out/bin/neoshell -d "SRC='$out/share'"
+
+        runHook postInstall
+      '';
     };
 
 
     devShells.${system}.default = pkgs.mkShell {
       buildInputs = [
         (ags.packages.${system}.default.override {
-          extraPackages = agsPackages;
+          inherit extraPackages;
         })
+        pkgs.gjs
+        pkgs.glib
+        pkgs.gobject-introspection
+        pkgs.wrapGAppsHook
       ];
     };
 
@@ -48,7 +81,7 @@
         if [ "$#" -eq 0 ]; then
             PRODUCTION=true exec ${self.packages.${system}.default}/bin/neoshell
         else
-            PRODUCTION=true exec ${ags.packages.${system}.io}/bin/astal -i neoshell "$@"
+            PRODUCTION=true exec ${pkgs.astal.io}/bin/astal -i neoshell "$@"
         fi
       '';
     };

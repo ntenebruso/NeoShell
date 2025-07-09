@@ -1,4 +1,6 @@
-import { App, Gdk, Gtk } from "astal/gtk3";
+import app from "ags/gtk3/app";
+import Gtk from "gi://Gtk?version=3.0";
+import Gdk from "gi://Gdk?version=3.0";
 import Bar from "./widgets/bar/Bar";
 import Calendar from "./widgets/bar/Calendar";
 import Launcher from "./widgets/launcher/Launcher";
@@ -12,15 +14,15 @@ import { CONFIG_FILE } from "./utils/options";
 function mapMonitors(widget: (monitor: Gdk.Monitor) => Gtk.Widget) {
     const widgets = new Map<Gdk.Monitor, Gtk.Widget>();
 
-    for (const gdkmonitor of App.get_monitors()) {
+    for (const gdkmonitor of app.get_monitors()) {
         widgets.set(gdkmonitor, widget(gdkmonitor));
     }
 
-    App.connect("monitor-added", (_, gdkmonitor) => {
+    app.connect("monitor-added", (_, gdkmonitor) => {
         widgets.set(gdkmonitor, widget(gdkmonitor));
     });
 
-    App.connect("monitor-removed", (_, gdkmonitor) => {
+    app.connect("monitor-removed", (_, gdkmonitor) => {
         widgets.get(gdkmonitor)?.destroy();
         widgets.delete(gdkmonitor);
     });
@@ -30,7 +32,7 @@ generateColorScheme();
 generateCSS();
 console.log(CONFIG_FILE);
 
-App.start({
+app.start({
     instanceName: "neoshell",
     css: CSS_OUTPUT,
     // gtkTheme: "Adwaita-dark",
@@ -41,7 +43,6 @@ App.start({
 
         Calendar();
         Launcher();
-        OSD();
         PowerMenu();
         SysMenu();
     },

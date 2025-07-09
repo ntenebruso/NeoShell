@@ -1,6 +1,9 @@
-import { bind, Gio, GLib, Variable } from "astal";
-import { App, Astal, Gdk, Gtk } from "astal/gtk3";
-import { EventBox } from "astal/gtk3/widget";
+import { createBinding, createState } from "ags";
+import Gio from "gi://Gio?version=2.0";
+import GLib from "gi://GLib?version=2.0";
+import Astal from "gi://Astal?version=3.0";
+import Gdk from "gi://Gdk?version=3.0";
+import Gtk from "gi://Gtk?version=3.0";
 import Battery from "gi://AstalBattery";
 import Hyprland from "gi://AstalHyprland";
 import Mpris from "gi://AstalMpris";
@@ -30,8 +33,7 @@ function MenuEntry({ item }: { item: Tray.TrayItem }) {
 
     return (
         <button
-            tooltipMarkup={bind(item, "tooltipMarkup")}
-            usePopover={false}
+            tooltipMarkup={createBinding(item, "tooltipMarkup")}
             onClick={(self, e) => {
                 if (e.button == Astal.MouseButton.PRIMARY) {
                     item.activate(0, 0);

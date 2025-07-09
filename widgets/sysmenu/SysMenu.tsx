@@ -1,21 +1,28 @@
-import { GLib, Variable } from "astal";
-import { App, Astal, Gdk, Gtk } from "astal/gtk3";
+import GLib from "gi://GLib?version=2.0";
+import app from "ags/gtk3/app";
+import Astal from "gi://Astal?version=3.0";
+import Gdk from "gi://Gdk?version=3.0";
+import Gtk from "gi://Gtk?version=3.0";
 import Notifications from "./Notifications";
 import Media from "./Media";
+import { createState } from "ags";
+import { createPoll } from "ags/time";
 
 function hide() {
-    App.get_window("SysMenu")!.hide();
+    app.get_window("SysMenu")!.hide();
 }
 
 export default function SysMenu() {
-    const width = Variable(1000);
+    const [width, setWidth] = createState(1000);
 
-    const time = Variable("").poll(
+    const time = createPoll(
+        "",
         1000,
         () => GLib.DateTime.new_now_local().format("%I:%M")!
     );
 
-    const date = Variable("").poll(
+    const date = createPoll(
+        "",
         1000,
         () => GLib.DateTime.new_now_local().format("%A, %B %e %Y")!
     );
@@ -23,7 +30,7 @@ export default function SysMenu() {
     return (
         <window
             name="SysMenu"
-            className="SysMenu"
+            class="SysMenu"
             anchor={
                 Astal.WindowAnchor.TOP |
                 Astal.WindowAnchor.BOTTOM |
@@ -31,29 +38,25 @@ export default function SysMenu() {
             }
             layer={Astal.Layer.OVERLAY}
             visible={false}
-            application={App}
+            application={app}
             margin={5}
             onShow={(self) => {
-                width.set(self.get_current_monitor().workarea.width);
-            }}
-            onDestroy={() => {
-                time.drop();
-                date.drop();
+                setWidth(self.get_current_monitor().workarea.width);
             }}
         >
             <box>
                 <box vertical>
-                    <box className="container" vertical>
-                        <box className="Time section" vertical>
-                            <label className="time">{time()}</label>
-                            <label className="date">{date()}</label>
+                    <box class="container" vertical>
+                        <box class="Time section" vertical>
+                            <label class="time" label={time}></label>
+                            <label class="date" label={date}></label>
                         </box>
                         <Notifications />
                         <Media />
                     </box>
                     <eventbox expand onClick={hide} />
                 </box>
-                <eventbox widthRequest={width()} expand onClick={hide} />
+                <eventbox widthRequest={width} expand onClick={hide} />
             </box>
         </window>
     );

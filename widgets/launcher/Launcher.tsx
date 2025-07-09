@@ -1,18 +1,21 @@
+import { createState, For } from "ags";
+import app from "ags/gtk3/app";
+import Astal from "gi://Astal?version=3.0";
 import Apps from "gi://AstalApps";
-import { App, Astal, Gdk, Gtk } from "astal/gtk3";
-import { Variable } from "astal";
+import Gdk from "gi://Gdk?version=3.0";
+import Gtk from "gi://Gtk?version=3.0";
 import launchApp from "../../utils/launch";
 
 const MAX_ITEMS = 8;
 
 function hide() {
-    App.get_window("Launcher")!.hide();
+    app.get_window("Launcher")!.hide();
 }
 
 function AppButton({ app }: { app: Apps.Application }) {
     return (
         <button
-            className="AppButton"
+            class="AppButton"
             onClicked={() => {
                 launchApp(app.entry);
                 hide();
@@ -21,15 +24,10 @@ function AppButton({ app }: { app: Apps.Application }) {
             <box>
                 <icon icon={app.iconName} />
                 <box valign={Gtk.Align.CENTER} vertical>
-                    <label
-                        className="name"
-                        truncate
-                        xalign={0}
-                        label={app.name}
-                    />
+                    <label class="name" truncate xalign={0} label={app.name} />
                     {app.description && (
                         <label
-                            className="description"
+                            class="description"
                             wrap
                             xalign={0}
                             label={app.description}
@@ -44,10 +42,10 @@ function AppButton({ app }: { app: Apps.Application }) {
 export default function Applauncher() {
     const { CENTER } = Gtk.Align;
     const apps = new Apps.Apps();
-    const width = Variable(1000);
-    const entry = Variable<Gtk.Entry | null>(null);
+    const [width, setWidth] = createState(1000);
+    const [entry, setEntry] = createState<Gtk.Entry | null>(null);
 
-    const text = Variable("");
+    const [text, setText] = createState("");
     const list = text((text) => apps.fuzzy_query(text).slice(0, MAX_ITEMS));
     const onEnter = () => {
         launchApp(list.get()[0].entry);
@@ -57,18 +55,18 @@ export default function Applauncher() {
     return (
         <window
             name="Launcher"
-            className="Launcher"
+            class="Launcher"
             anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
             exclusivity={Astal.Exclusivity.IGNORE}
             keymode={Astal.Keymode.ON_DEMAND}
-            application={App}
+            application={app}
             onShow={(self) => {
-                text.set("");
-                width.set(self.get_current_monitor().workarea.width);
+                setText("");
+                setWidth(self.get_current_monitor().workarea.width);
                 entry.get()?.grab_focus();
             }}
-            onKeyPressEvent={function (self, event: Gdk.Event) {
-                if (event.get_keyval()[1] === Gdk.KEY_Escape) self.hide();
+            onKeyPressEvent={function (self, event: Gdk.EventKey) {
+                if (event.keyval === Gdk.KEY_Escape) self.hide();
             }}
             visible={false}
         >
@@ -80,22 +78,22 @@ export default function Applauncher() {
                 />
                 <box hexpand={false} vertical>
                     <eventbox heightRequest={100} onClick={hide} />
-                    <box widthRequest={500} className="Applauncher" vertical>
+                    <box widthRequest={500} class="Applauncher" vertical>
                         <entry
                             placeholderText="Search"
-                            text={text()}
-                            onChanged={(self) => text.set(self.text)}
+                            text={text}
+                            onInsertAtCursor={(self) => setText(self.text)}
                             onActivate={onEnter}
-                            setup={(self) => entry.set(self)}
+                            $={(self) => setEntry(self)}
                         />
                         <box spacing={6} vertical>
-                            {list.as((list) =>
-                                list.map((app) => <AppButton app={app} />)
-                            )}
+                            <For each={list}>
+                                {(item, index) => <AppButton app={item} />}
+                            </For>
                         </box>
                         <box
                             halign={CENTER}
-                            className="not-found"
+                            class="not-found"
                             vertical
                             visible={list.as((l) => l.length === 0)}
                         >

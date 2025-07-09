@@ -1,11 +1,6 @@
-import {
-    GObject,
-    interval,
-    property,
-    register,
-    readFileAsync,
-    readFile,
-} from "astal";
+import { readFile } from "ags/file";
+import GObject, { getter, register } from "ags/gobject";
+import { interval } from "ags/time";
 
 @register()
 export default class Indicators extends GObject.Object {
@@ -18,14 +13,14 @@ export default class Indicators extends GObject.Object {
 
     #cpuTemp = 0;
 
-    @property(Number)
+    @getter(Number)
     get cpuTemp() {
         return this.#cpuTemp;
     }
 
     #memUsage = 0;
 
-    @property(Number)
+    @getter(Number)
     get memUsage() {
         return this.#memUsage;
     }

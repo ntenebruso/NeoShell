@@ -1,4 +1,6 @@
-import { exec, GLib, readFile, writeFile } from "astal";
+import { readFile, writeFile } from "ags/file";
+import { exec } from "ags/process";
+import GLib from "gi://GLib?version=2.0";
 import options from "../options";
 
 const TMP = GLib.get_tmp_dir();

@@ -1,6 +1,6 @@
-import { bind, Variable } from "astal";
-import { Gtk } from "astal/gtk3";
+import { createBinding, createComputed } from "ags";
 import Mpris from "gi://AstalMpris";
+import Gtk from "gi://Gtk?version=3.0";
 
 function lengthStr(len: number) {
     const min = Math.floor(len / 60);
@@ -10,49 +10,59 @@ function lengthStr(len: number) {
 }
 
 function Player({ player }: { player: Mpris.Player }) {
-    const pct: Variable<number> = Variable.derive(
-        [bind(player, "position"), bind(player, "length")],
+    const pct = createComputed(
+        [createBinding(player, "position"), createBinding(player, "length")],
         (pos, length) => {
             return pos / length;
         }
     );
 
     return (
-        <box vertical className="player">
-            <label className="song">
-                {bind(player, "title").as((title) => title || "No title")}
-            </label>
-            <label className="artist">
-                {bind(player, "artist").as((artist) => artist || "No artist")}
-            </label>
+        <box vertical class="player">
+            <label
+                class="song"
+                label={createBinding(player, "title").as(
+                    (title) => title || "No title"
+                )}
+            ></label>
+            <label
+                class="artist"
+                label={createBinding(player, "artist").as(
+                    (artist) => artist || "No artist"
+                )}
+            ></label>
             <box
                 vertical={false}
-                className="progress"
-                visible={bind(player, "length").as((l) => l > 0)}
+                class="progress"
+                visible={createBinding(player, "length").as((l) => l > 0)}
             >
-                <label>{bind(player, "position").as(lengthStr)}</label>
-                <levelbar value={pct()} hexpand />
-                <label>{bind(player, "length").as(lengthStr)}</label>
+                <label
+                    label={createBinding(player, "position").as(lengthStr)}
+                />
+                <levelbar value={pct} hexpand />
+                <label label={createBinding(player, "length").as(lengthStr)} />
             </box>
-            <centerbox vertical={false} className="btn-group">
+            <centerbox vertical={false} class="btn-group">
                 <box halign={Gtk.Align.CENTER}>
                     <button
-                        visible={bind(player, "canGoPrevious")}
-                        onClick={player.previous()}
+                        visible={createBinding(player, "canGoPrevious")}
+                        onClick={() => player.previous()}
                     >
                         󰒮
                     </button>
                     <button
-                        visible={bind(player, "canControl")}
+                        visible={createBinding(player, "canControl")}
                         onClick={() => player.play_pause()}
                     >
-                        {bind(player, "playbackStatus").as((p) =>
-                            p == Mpris.PlaybackStatus.PLAYING ? "" : ""
-                        )}
+                        {createBinding(player, "playbackStatus")
+                            .as((p) =>
+                                p == Mpris.PlaybackStatus.PLAYING ? "" : ""
+                            )
+                            .get()}
                     </button>
                     <button
-                        visible={bind(player, "canGoNext")}
-                        onClick={player.next()}
+                        visible={createBinding(player, "canGoNext")}
+                        onClick={() => player.next()}
                     >
                         󰒭
                     </button>
@@ -65,22 +75,25 @@ function Player({ player }: { player: Mpris.Player }) {
 export default function Media() {
     const mpris = Mpris.get_default();
     return (
-        <box vertical className="Media section">
+        <box vertical class="Media section">
             <box vertical={false}>
-                <label className="icon">󰝚</label>
-                <label>Media</label>
+                <label class="icon" label="󰝚"></label>
+                <label label="Media"></label>
             </box>
-            {bind(mpris, "players").as((players) => {
-                if (players.length == 0) {
-                    return (
-                        <label className="none">
-                            No media currently playing.
-                        </label>
-                    );
-                }
+            {createBinding(mpris, "players")
+                .as((players) => {
+                    if (players.length == 0) {
+                        return (
+                            <label
+                                class="none"
+                                label="No media currently playing."
+                            ></label>
+                        );
+                    }
 
-                return <Player player={players[0]} />;
-            })}
+                    return <Player player={players[0]} />;
+                })
+                .get()}
         </box>
     );
 }

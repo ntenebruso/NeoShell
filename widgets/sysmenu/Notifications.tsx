@@ -1,4 +1,4 @@
-import { bind } from "astal";
+import { createBinding, For } from "ags";
 import Notifd from "gi://AstalNotifd";
 import Notification from "../notifications/Notification";
 
@@ -12,7 +12,7 @@ export default function Notifications() {
     }
 
     return (
-        <box vertical className="Notifications section">
+        <box vertical class="Notifications section">
             <box vertical={false}>
                 <button
                     onClick={() =>
@@ -20,32 +20,33 @@ export default function Notifications() {
                             !notifications.dontDisturb
                         )
                     }
-                    className="icon"
+                    class="icon"
                 >
-                    {bind(notifications, "dontDisturb").as((dnd) =>
-                        dnd ? "󱏩" : "󰂚"
-                    )}
+                    {createBinding(notifications, "dontDisturb")
+                        .as((dnd) => (dnd ? "󱏩" : "󰂚"))
+                        .get()}
                 </button>
-                <label>Notifications</label>
+                <label label="Notifications"></label>
                 <box hexpand={true} />
                 <button onClick={clearNotifications}>Clear all</button>
             </box>
             <box vertical>
-                {bind(notifications, "notifications").as((notifications) => {
-                    if (notifications.length == 0) {
-                        return <label className="none">All caught up</label>;
+                <label
+                    visible={
+                        createBinding(notifications, "notifications").length ==
+                        0
                     }
-
-                    return notifications.map((notification) => {
-                        return (
-                            <Notification
-                                onHoverLost={() => {}}
-                                setup={() => {}}
-                                notification={notification}
-                            />
-                        );
-                    });
-                })}
+                    class="none"
+                    label="All caught up"
+                ></label>
+                <For each={createBinding(notifications, "notifications")}>
+                    {(notification: Notifd.Notification, index) => (
+                        <Notification
+                            onHoverLost={() => {}}
+                            notification={notification}
+                        />
+                    )}
+                </For>
             </box>
         </box>
     );

@@ -33,6 +33,7 @@
     
     extraPackages = astalPackages ++ [
       pkgs.gtk3
+      pkgs.dart-sass
     ];
   in {
     packages.${system}.default = pkgs.stdenv.mkDerivation {
@@ -73,6 +74,7 @@
         pkgs.glib
         pkgs.gobject-introspection
         pkgs.wrapGAppsHook
+        pkgs.dart-sass
       ];
     };
 

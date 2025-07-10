@@ -62,6 +62,15 @@
 
         runHook postInstall
       '';
+
+      postInstall = ''
+        wrapProgram $out/bin/neoshell \
+          --prefix PATH : ${
+            nixpkgs.lib.makeBinPath [
+              pkgs.dart-sass
+            ]
+          }
+      '';
     };
 
 

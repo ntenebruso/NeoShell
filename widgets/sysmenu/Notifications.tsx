@@ -1,4 +1,4 @@
-import { createBinding, For } from "ags";
+import { createBinding, For, With } from "ags";
 import Notifd from "gi://AstalNotifd";
 import Notification from "../notifications/Notification";
 
@@ -21,32 +21,38 @@ export default function Notifications() {
                         )
                     }
                     class="icon"
-                >
-                    {createBinding(notifications, "dontDisturb")
-                        .as((dnd) => (dnd ? "󱏩" : "󰂚"))
-                        .get()}
-                </button>
+                    label={createBinding(notifications, "dontDisturb").as(
+                        (dnd) => (dnd ? "󱏩" : "󰂚")
+                    )}
+                ></button>
                 <label label="Notifications"></label>
                 <box hexpand={true} />
                 <button onClick={clearNotifications}>Clear all</button>
             </box>
             <box vertical>
-                <label
-                    visible={
-                        createBinding(notifications, "notifications").length ==
-                        0
-                    }
-                    class="none"
-                    label="All caught up"
-                ></label>
-                <For each={createBinding(notifications, "notifications")}>
-                    {(notification: Notifd.Notification, index) => (
-                        <Notification
-                            onHoverLost={() => {}}
-                            notification={notification}
-                        />
-                    )}
-                </For>
+                <With value={createBinding(notifications, "notifications")}>
+                    {(notifications: Notifd.Notification[]) => {
+                        if (notifications.length == 0) {
+                            return (
+                                <label
+                                    class="none"
+                                    label="All caught up"
+                                ></label>
+                            );
+                        }
+
+                        return (
+                            <box vertical>
+                                {notifications.map((notification) => (
+                                    <Notification
+                                        onHoverLost={() => {}}
+                                        notification={notification}
+                                    />
+                                ))}
+                            </box>
+                        );
+                    }}
+                </With>
             </box>
         </box>
     );

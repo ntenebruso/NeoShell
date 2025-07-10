@@ -157,9 +157,8 @@ function IdleInhibitor() {
             <button
                 halign={Gtk.Align.CENTER}
                 onClick={() => setIdleInhibit(!idleInhibit.get())}
-            >
-                {idleInhibit.as((v) => (v ? "󱡥" : "󰥔")).get()}
-            </button>
+                label={idleInhibit.as((v) => (v ? "󱡥" : "󰥔"))}
+            ></button>
         </box>
     );
 }

@@ -11,6 +11,8 @@ export default function NotificationPopups(monitor: Gdk.Monitor) {
     );
 
     const notifiedHandler = notifd.connect("notified", (_, id, replaced) => {
+        if (notifd.dontDisturb) return;
+
         const notification = notifd.get_notification(id);
 
         if (replaced && notifications.get().some((n) => n.id === id)) {
@@ -46,11 +48,11 @@ export default function NotificationPopups(monitor: Gdk.Monitor) {
                     {(notification) => (
                         <Notification
                             notification={notification}
-                            onHoverLost={() =>
+                            onHoverLost={(self) => {
                                 setNotifications((ns) =>
                                     ns.filter((n) => n.id !== notification.id)
-                                )
-                            }
+                                );
+                            }}
                         />
                     )}
                 </For>

@@ -51,8 +51,8 @@ export default function PowerMenu() {
             exclusivity={Astal.Exclusivity.IGNORE}
             keymode={Astal.Keymode.EXCLUSIVE}
             application={app}
-            onKeyPressEvent={(self, e) => {
-                if (e.keyval == Gdk.KEY_Escape) {
+            onKeyPressEvent={(self, e: Gdk.Event) => {
+                if (e.get_keyval()[1] == Gdk.KEY_Escape) {
                     self.hide();
                 }
             }}
@@ -62,8 +62,8 @@ export default function PowerMenu() {
                 {COMMANDS.map((command) => (
                     <button
                         onClick={() => execute(command.action)}
-                        onKeyPressEvent={(self, e) => {
-                            if (e.keyval == Gdk.KEY_Return) {
+                        onKeyPressEvent={(self, e: Gdk.Event) => {
+                            if (e.get_keyval()[1] == Gdk.KEY_Return) {
                                 execute(command.action);
                             }
                         }}

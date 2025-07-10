@@ -59,7 +59,7 @@ export default function OSD(monitor: Gdk.Monitor) {
                     <icon icon={iconName} />
                     <levelbar widthRequest={100} value={value} />
                     <label
-                        label={value((v) => `${Math.floor(v * 100)}%`).get()}
+                        label={value((v) => `${Math.floor(v * 100)}%`)}
                     ></label>
                 </box>
             </revealer>

@@ -24,6 +24,16 @@ function createMenu(menuModel: Gio.MenuModel, actionGroup: Gio.ActionGroup) {
 }
 
 function MenuEntry({ item }: { item: Tray.TrayItem }) {
+    let menu: Gtk.Menu;
+
+    const entryBinding = createComputed(
+        [createBinding(item, "menuModel"), createBinding(item, "actionGroup")],
+        (menuModel, actionGroup) => {
+            menu = createMenu(menuModel, actionGroup);
+        }
+    );
+    entryBinding.get();
+
     return (
         <button
             tooltipMarkup={createBinding(item, "tooltipMarkup")}
@@ -31,7 +41,6 @@ function MenuEntry({ item }: { item: Tray.TrayItem }) {
                 if (e.button == Astal.MouseButton.PRIMARY) {
                     item.activate(0, 0);
                 } else if (e.button == Astal.MouseButton.SECONDARY) {
-                    const menu = createMenu(item.menuModel, item.actionGroup);
                     menu.popup_at_widget(
                         self,
                         Gdk.Gravity.NORTH,

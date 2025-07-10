@@ -65,8 +65,8 @@ export default function Applauncher() {
                 setWidth(self.get_current_monitor().workarea.width);
                 entry.get()?.grab_focus();
             }}
-            onKeyPressEvent={function (self, event: Gdk.EventKey) {
-                if (event.keyval === Gdk.KEY_Escape) self.hide();
+            onKeyPressEvent={function (self, event: Gdk.Event) {
+                if (event.get_keyval()[1] === Gdk.KEY_Escape) self.hide();
             }}
             visible={false}
         >
@@ -82,7 +82,7 @@ export default function Applauncher() {
                         <entry
                             placeholderText="Search"
                             text={text}
-                            onInsertAtCursor={(self) => setText(self.text)}
+                            onKeyReleaseEvent={(self) => setText(self.text)}
                             onActivate={onEnter}
                             $={(self) => setEntry(self)}
                         />

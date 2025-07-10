@@ -1,4 +1,4 @@
-import { createBinding, createComputed } from "ags";
+import { createBinding, createComputed, With } from "ags";
 import Mpris from "gi://AstalMpris";
 import Gtk from "gi://Gtk?version=3.0";
 
@@ -42,32 +42,36 @@ function Player({ player }: { player: Mpris.Player }) {
                 <levelbar value={pct} hexpand />
                 <label label={createBinding(player, "length").as(lengthStr)} />
             </box>
-            <centerbox vertical={false} class="btn-group">
-                <box halign={Gtk.Align.CENTER}>
-                    <button
-                        visible={createBinding(player, "canGoPrevious")}
-                        onClick={() => player.previous()}
-                    >
-                        󰒮
-                    </button>
-                    <button
-                        visible={createBinding(player, "canControl")}
-                        onClick={() => player.play_pause()}
-                    >
-                        {createBinding(player, "playbackStatus")
-                            .as((p) =>
-                                p == Mpris.PlaybackStatus.PLAYING ? "" : ""
-                            )
-                            .get()}
-                    </button>
-                    <button
-                        visible={createBinding(player, "canGoNext")}
-                        onClick={() => player.next()}
-                    >
-                        󰒭
-                    </button>
-                </box>
-            </centerbox>
+            <centerbox
+                vertical={false}
+                class="btn-group"
+                centerWidget={
+                    <box halign={Gtk.Align.CENTER}>
+                        <button
+                            visible={createBinding(player, "canGoPrevious")}
+                            onClick={() => player.previous()}
+                        >
+                            󰒮
+                        </button>
+                        <button
+                            visible={createBinding(player, "canControl")}
+                            onClick={() => player.play_pause()}
+                            label={createBinding(player, "playbackStatus").as(
+                                (p) =>
+                                    p == Mpris.PlaybackStatus.PLAYING
+                                        ? ""
+                                        : ""
+                            )}
+                        ></button>
+                        <button
+                            visible={createBinding(player, "canGoNext")}
+                            onClick={() => player.next()}
+                        >
+                            󰒭
+                        </button>
+                    </box>
+                }
+            />
         </box>
     );
 }
@@ -80,20 +84,21 @@ export default function Media() {
                 <label class="icon" label="󰝚"></label>
                 <label label="Media"></label>
             </box>
-            {createBinding(mpris, "players")
-                .as((players) => {
+            <With value={createBinding(mpris, "players")}>
+                {(players: Mpris.Player[]) => {
                     if (players.length == 0) {
                         return (
                             <label
                                 class="none"
                                 label="No media currently playing."
+                                visible={players.length == 0}
                             ></label>
                         );
                     }
 
                     return <Player player={players[0]} />;
-                })
-                .get()}
+                }}
+            </With>
         </box>
     );
 }

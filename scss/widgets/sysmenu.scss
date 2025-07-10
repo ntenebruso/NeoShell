@@ -45,6 +45,14 @@ window.SysMenu {
                 border: 2px solid vars.$base0C;
                 border-radius: 10px;
 
+                box.image {
+                    min-width: 200px;
+                    min-height: 200px;
+                    background-size: cover;
+                    background-position: center;
+                    margin-bottom: 10px;
+                }
+
                 label.song {
                     font-weight: bold;
                 }

@@ -17,8 +17,23 @@ function Player({ player }: { player: Mpris.Player }) {
         }
     );
 
+    const image = createBinding(player, "coverArt");
+
     return (
         <box vertical class="player">
+            <box vertical>
+                <With value={image}>
+                    {(image) => (
+                        <box
+                            halign={Gtk.Align.CENTER}
+                            class="image"
+                            css={`
+                                background-image: url("${image}");
+                            `}
+                        ></box>
+                    )}
+                </With>
+            </box>
             <label
                 class="song"
                 label={createBinding(player, "title").as(

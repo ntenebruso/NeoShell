@@ -1,6 +1,6 @@
 import { createBinding, createComputed, createState, For, With } from "ags";
 import app from "ags/gtk3/app";
-import { createPoll } from "ags/time";
+import { createPoll, interval } from "ags/time";
 import Astal from "gi://Astal?version=3.0";
 import Battery from "gi://AstalBattery";
 import Hyprland from "gi://AstalHyprland";
@@ -16,6 +16,8 @@ import Gtk from "gi://Gtk?version=3.0";
 import Brightness from "../../utils/brightness";
 import Indicators from "../../utils/indicators";
 import launchApp from "../../utils/launch";
+import { exec, execAsync } from "ags/process";
+import { throttle } from "../../utils/throttle";
 
 function createMenu(menuModel: Gio.MenuModel, actionGroup: Gio.ActionGroup) {
     const menu = Gtk.Menu.new_from_model(menuModel);
@@ -158,6 +160,46 @@ function IdleInhibitor() {
                 halign={Gtk.Align.CENTER}
                 onClick={() => setIdleInhibit(!idleInhibit.get())}
                 label={idleInhibit.as((v) => (v ? "󱡥" : "󰥔"))}
+            ></button>
+        </box>
+    );
+}
+
+function Sunset() {
+    const [status, setStatus] = createState(false);
+
+    function checkStatus() {
+        execAsync(
+            `bash -c "pgrep -x hyprsunset > /dev/null && echo 'yes' || echo 'no'"`
+        ).then((res) => {
+            setStatus(res == "yes");
+        });
+    }
+
+    function toggleSunset() {
+        if (status.get() == false) {
+            execAsync(`bash -c "nohup hyprsunset > /dev/null &"`).then(() => {
+                checkStatus();
+            });
+        } else {
+            execAsync(`bash -c "pkill -x hyprsunset"`).then(() => {
+                checkStatus();
+            });
+        }
+    }
+
+    checkStatus();
+
+    interval(2000, checkStatus);
+
+    const toggleThrottle = throttle(toggleSunset, 1000);
+
+    return (
+        <box class="Sunset item">
+            <button
+                label={"󱩍"}
+                class={status.as((s) => (s ? "active" : ""))}
+                onClick={() => toggleThrottle()}
             ></button>
         </box>
     );
@@ -355,6 +397,7 @@ export default function Bar(monitor: Gdk.Monitor) {
                     <box hexpand halign={Gtk.Align.END}>
                         <SysTray />
                         <IdleInhibitor />
+                        <Sunset />
                         <CPUTemp />
                         <MemUsage />
                         <BrightnessLevel />

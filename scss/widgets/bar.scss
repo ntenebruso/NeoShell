@@ -80,6 +80,21 @@ window.Bar {
         }
     }
 
+    .Sunset {
+        min-width: 15px;
+        margin-right: 10px;
+
+        button {
+            all: unset;
+            color: vars.$base0B;
+            font-size: 1.1em;
+        }
+
+        button.active {
+            color: vars.$base0A;
+        }
+    }
+
     .CPUTemp {
         margin-right: 10px;
 

@@ -12,18 +12,38 @@ window.Bar {
     font-weight: bold;
 
     .container {
-        padding: 5px 0;
+        padding: 5px 5px;
+
+        .left .item {
+            margin-right: 7px;
+        }
+
+        .right .item {
+            margin-left: 7px;
+        }
+
+        .center .item:not(:first-child) {
+            margin-left: 7px;
+        }
     }
 
     .item {
         padding: 0 10px;
         border-radius: $radius;
         background: vars.$base01;
+
+        .icon {
+            margin-right: 5px;
+            color: vars.$base0B;
+            font-size: 1.1em;
+        }
+
+        icon.icon {
+            font-size: 1em;
+        }
     }
 
     .SysMenu {
-        margin-left: 5px;
-        margin-right: 10px;
         min-width: 17px;
 
         label {
@@ -71,7 +91,6 @@ window.Bar {
     .IdleInhibitor {
         font-family: "Mononoki Nerd Font Mono";
         min-width: 15px;
-        margin-right: 10px;
 
         button {
             all: unset;
@@ -82,7 +101,6 @@ window.Bar {
 
     .Sunset {
         min-width: 15px;
-        margin-right: 10px;
 
         button {
             all: unset;
@@ -96,28 +114,12 @@ window.Bar {
     }
 
     .CPUTemp {
-        margin-right: 10px;
-
-        .icon {
-            margin-right: 5px;
-            color: vars.$base0B;
-            font-size: 1.1em;
-        }
     }
 
     .MemUsage {
-        margin-right: 10px;
-
-        .icon {
-            margin-right: 5px;
-            color: vars.$base0B;
-            font-size: 1.1em;
-        }
     }
 
     .SysTray {
-        margin-right: 10px;
-
         button {
             all: unset;
             padding: 0 4px;
@@ -137,43 +139,14 @@ window.Bar {
     }
 
     .Battery {
-        margin-right: 5px;
-
-        icon {
-            color: vars.$base0B;
-        }
-
-        label {
-            margin-left: 5px;
-        }
     }
 
     .Brightness {
-        margin-right: 10px;
-
-        icon {
-            color: vars.$base0B;
-        }
-
-        label {
-            margin-left: 5px;
-        }
     }
 
     .AudioSlider {
-        margin-right: 10px;
-
         * {
             all: unset;
-        }
-
-        icon {
-            margin-right: 5px;
-            color: vars.$base0B;
-        }
-
-        label {
-            margin-left: 5px;
         }
 
         trough {

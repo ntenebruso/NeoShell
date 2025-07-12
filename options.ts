@@ -24,6 +24,22 @@ const options = mkOptions({
         base0E: "#b45bcf",
         base0F: "#00f769",
     },
+    bar: {
+        modules: {
+            left: ["sysmenu", "workspaces", "focused"],
+            center: ["time"],
+            right: [
+                "systray",
+                "inhibit",
+                "sunset",
+                "cpu",
+                "memory",
+                "brightness",
+                "audio",
+                "battery",
+            ],
+        },
+    },
     modules: {
         indicators: {
             cpuPollingInterval: 30000,

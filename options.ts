@@ -25,7 +25,7 @@ const options = mkOptions({
         base0F: "#00f769",
     },
     bar: {
-        modules: {
+        layout: {
             left: ["sysmenu", "workspaces", "focused"],
             center: ["time"],
             right: [
@@ -39,11 +39,14 @@ const options = mkOptions({
                 "battery",
             ],
         },
-    },
-    modules: {
-        indicators: {
-            cpuPollingInterval: 30000,
-            memPollingInterval: 25000,
+        modules: {
+            focused: {
+                cutoff: 50,
+            },
+            time: {
+                format: "%I:%M",
+                showCalendar: true,
+            },
         },
     },
 });

@@ -29,21 +29,21 @@ export default function Bar(monitor: Gdk.Monitor) {
                 class="container"
                 startWidget={
                     <box class="left" hexpand halign={Gtk.Align.START}>
-                        {options.bar.modules.left.map((m) =>
+                        {options.bar.layout.left.map((m) =>
                             moduleManager.getModule(m).component()
                         )}
                     </box>
                 }
                 centerWidget={
                     <box class="center" halign={Gtk.Align.CENTER}>
-                        {options.bar.modules.center.map((m) =>
+                        {options.bar.layout.center.map((m) =>
                             moduleManager.getModule(m).component()
                         )}
                     </box>
                 }
                 endWidget={
                     <box class="right" hexpand halign={Gtk.Align.END}>
-                        {options.bar.modules.right.map((m) =>
+                        {options.bar.layout.right.map((m) =>
                             moduleManager.getModule(m).component()
                         )}
                     </box>

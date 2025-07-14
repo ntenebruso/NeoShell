@@ -6,14 +6,16 @@
 
 A customizable desktop shell made for Hyprland.
 
+![NeoShell Screenshot](img/screenshot1.png)
+
 ## Features
 
-- Top bar
-  - Calendar, volume control, battery, and systray widgets built-in
-- System overview
-  - Media widget, notification center
-- Notification popups
-- On-screen display (volume/brightness changes)
+-   Top bar
+    -   Calendar, volume control, battery, and systray widgets built-in
+-   System overview
+    -   Media widget, notification center
+-   Notification popups
+-   On-screen display (volume/brightness changes)
 
 ## Support
 

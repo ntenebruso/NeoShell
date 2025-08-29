@@ -3,7 +3,11 @@ import { Astal, Gdk, Gtk } from "ags/gtk3";
 import AstalNotifd from "gi://AstalNotifd";
 import Notification from "./Notification";
 
-export default function NotificationPopups(monitor: Gdk.Monitor) {
+export default function NotificationPopups({
+    monitor,
+}: {
+    monitor: Gdk.Monitor;
+}) {
     const notifd = AstalNotifd.get_default();
 
     const [notifications, setNotifications] = createState(

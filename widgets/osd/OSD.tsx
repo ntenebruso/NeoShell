@@ -7,7 +7,7 @@ import Gdk from "gi://Gdk?version=3.0";
 import Gtk from "gi://Gtk?version=3.0";
 import Brightness from "../../utils/brightness";
 
-export default function OSD(monitor: Gdk.Monitor) {
+export default function OSD({ monitor }: { monitor: Gdk.Monitor }) {
     const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 
     const speaker = Wp.get_default()?.get_default_speaker();

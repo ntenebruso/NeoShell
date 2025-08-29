@@ -39,7 +39,7 @@
     packages.${system}.default = pkgs.stdenv.mkDerivation {
       name = "neoshell";
       src = ./.;
-      entry = "app.ts";
+      entry = "app.tsx";
 
       nativeBuildInputs = with pkgs; [
         wrapGAppsHook
@@ -58,7 +58,7 @@
         mkdir -p $out/bin
         mkdir -p $out/share
         cp -r * $out/share
-        ags bundle app.ts $out/bin/neoshell -d "SRC='$out/share'"
+        ags bundle app.tsx $out/bin/neoshell -d "SRC='$out/share'"
 
         runHook postInstall
       '';

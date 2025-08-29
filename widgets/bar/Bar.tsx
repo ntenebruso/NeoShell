@@ -8,7 +8,7 @@ import { registerCoreModules } from "./utils/coreModules";
 import options from "../../options";
 import { For } from "ags";
 
-export default function Bar(monitor: Gdk.Monitor) {
+export default function Bar({ monitor }: { monitor: Gdk.Monitor }) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
     const moduleManager = new ModuleManager();

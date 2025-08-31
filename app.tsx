@@ -14,28 +14,30 @@ generateColorScheme();
 generateCSS();
 console.log(CONFIG_FILE);
 
+function MultiMonitorWidgets() {
+    const monitors = createBinding(app, "monitors");
+
+    return (
+        <For each={monitors}>
+            {(monitor) => (
+                <This this={app}>
+                    <Bar monitor={monitor} />
+                    <NotificationPopups monitor={monitor} />
+                    <OSD monitor={monitor} />
+                </This>
+            )}
+        </For>
+    );
+}
+
 app.start({
     instanceName: "neoshell",
     css: CSS_OUTPUT,
     main() {
-        const monitors = createBinding(app, "monitors");
-
-        return (
-            <box>
-                <For each={monitors}>
-                    {(monitor) => (
-                        <This this={app}>
-                            <Bar monitor={monitor} />
-                            <NotificationPopups monitor={monitor} />
-                            <OSD monitor={monitor} />
-                        </This>
-                    )}
-                </For>
-                <Calendar />
-                <Launcher />
-                <PowerMenu />
-                <SysMenu />
-            </box>
-        );
+        Calendar();
+        Launcher();
+        PowerMenu();
+        SysMenu();
+        MultiMonitorWidgets();
     },
 });

@@ -32,10 +32,6 @@ function AudioSlider() {
         unsub();
     });
 
-    createBinding(speaker, "volume").subscribe(() => {
-        console.log(speaker.volume);
-    });
-
     return (
         <box class="AudioSlider item" css="min-width: 140px">
             <button

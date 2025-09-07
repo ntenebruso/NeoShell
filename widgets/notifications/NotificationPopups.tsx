@@ -2,6 +2,8 @@ import { createState, For, onCleanup } from "ags";
 import { Astal, Gdk, Gtk } from "ags/gtk3";
 import AstalNotifd from "gi://AstalNotifd";
 import Notification from "./Notification";
+import { timeout } from "ags/time";
+import options from "../../options";
 
 export default function NotificationPopups({
     monitor,
@@ -9,6 +11,8 @@ export default function NotificationPopups({
     monitor: Gdk.Monitor;
 }) {
     const notifd = AstalNotifd.get_default();
+
+    notifd.ignoreTimeout = true;
 
     const [notifications, setNotifications] = createState(
         new Array<AstalNotifd.Notification>()
@@ -25,6 +29,19 @@ export default function NotificationPopups({
             );
         } else {
             setNotifications((ns) => [notification, ...ns]);
+        }
+
+        if (options.notifications.timeout != -1) {
+            timeout(
+                notification.expireTimeout != -1
+                    ? notification.expireTimeout
+                    : options.notifications.timeout,
+                () => {
+                    setNotifications((ns) =>
+                        ns.filter((n) => n.id != notification.id)
+                    );
+                }
+            );
         }
     });
 

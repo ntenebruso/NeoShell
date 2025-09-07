@@ -24,6 +24,9 @@ const options = mkOptions({
         base0E: "#b45bcf",
         base0F: "#00f769",
     },
+    notifications: {
+        timeout: 5000, // Time in milliseconds to dismiss a notification if it doesn't already specify a timeout. Set to -1 to show the notification until it's dismissed.
+    },
     bar: {
         layout: {
             left: ["sysmenu", "workspaces", "focused"],

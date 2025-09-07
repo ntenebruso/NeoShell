@@ -32,6 +32,10 @@ function AudioSlider() {
         unsub();
     });
 
+    createBinding(speaker, "volume").subscribe(() => {
+        console.log(speaker.volume);
+    });
+
     return (
         <box class="AudioSlider item" css="min-width: 140px">
             <button
@@ -55,10 +59,17 @@ function AudioSlider() {
             </button>
             <slider
                 hexpand
-                onDragged={(self) => (speaker.volume = self.value)}
+                onChangeValue={(self) => {
+                    speaker.volume = self.value;
+                    return false;
+                }}
                 value={createBinding(speaker, "volume")}
+                min={0}
+                max={1}
+                step={0.01}
             />
             <label
+                class="value"
                 label={createBinding(speaker, "volume").as(
                     (v) => `${Math.floor(v * 100)}%`
                 )}

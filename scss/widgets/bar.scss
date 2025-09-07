@@ -149,23 +149,30 @@ window.Bar {
             all: unset;
         }
 
-        trough {
-            background-color: color.adjust(vars.$base05, $alpha: -0.8);
-            border-radius: $radius;
+        .value {
+            margin-left: 5px;
+            min-width: 2.5rem;
         }
 
-        highlight {
-            background-color: vars.$base0B;
-            min-height: 10px;
-            border-radius: $radius;
-        }
+        scale {
+            trough {
+                background-color: color.adjust(vars.$base05, $alpha: -0.8);
+                border-radius: $radius;
+            }
 
-        slider {
-            background-color: vars.$base05;
-            border-radius: 2px;
-            min-height: 15px;
-            min-width: 10px;
-            margin: -5px 0;
+            highlight {
+                background-color: vars.$base0B;
+                min-height: 10px;
+                border-radius: $radius;
+            }
+
+            slider {
+                background-color: vars.$base05;
+                border-radius: 2px;
+                min-height: 15px;
+                min-width: 10px;
+                margin: -5px 0;
+            }
         }
     }
 }

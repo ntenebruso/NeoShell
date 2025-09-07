@@ -47,6 +47,10 @@ const options = mkOptions({
                 format: "%I:%M",
                 showCalendar: true,
             },
+            sunset: {
+                // Lower means warmer.
+                temperature: 5000,
+            },
         },
     },
 });

@@ -3,9 +3,11 @@ import { execAsync } from "ags/process";
 import { interval } from "ags/time";
 import { throttle } from "../../../utils/throttle";
 import { Module } from "../utils/module";
+import options from "../../../options";
 
 function Sunset() {
     const [status, setStatus] = createState(false);
+    const currOptions = options.bar.modules.sunset;
 
     function checkStatus() {
         execAsync(
@@ -17,7 +19,9 @@ function Sunset() {
 
     function toggleSunset() {
         if (status.get() == false) {
-            execAsync(`bash -c "nohup hyprsunset > /dev/null &"`).then(() => {
+            execAsync(
+                `bash -c "nohup hyprsunset -t ${currOptions.temperature} > /dev/null &"`
+            ).then(() => {
                 checkStatus();
             });
         } else {

@@ -13,15 +13,15 @@
 }
 
 button {
-    background: vars.$base01;
+    background: vars.$base02;
     color: vars.$base05;
     border: none;
 }
 
 button:hover {
-    background: color.adjust(vars.$base01, $lightness: 10%);
+    background: color.adjust(vars.$base02, $lightness: 10%);
 }
 
 button:active {
-    background: color.adjust(vars.$base01, $lightness: 20%);
+    background: color.adjust(vars.$base02, $lightness: 20%);
 }

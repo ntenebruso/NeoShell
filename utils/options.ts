@@ -2,7 +2,7 @@ import GLib from "gi://GLib?version=2.0";
 import { readFile } from "ags/file";
 
 export const CONFIG_FILE =
-    GLib.getenv("PRODUCTION") == String(true)
+    GLib.getenv("PRODUCTION") == "true"
         ? `${GLib.get_user_config_dir()}/neoshell/config.json`
         : `${SRC}/config/config.json`;
 

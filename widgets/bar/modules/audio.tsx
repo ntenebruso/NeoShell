@@ -17,14 +17,27 @@ function AudioSlider() {
     ]).subscribe(() => {
         menu.foreach((w) => w.destroy());
         for (const speaker of speakers.get()) {
-            const item = Gtk.CheckMenuItem.new();
-            item.set_label(speaker.device.description);
+            const item = Gtk.MenuItem.new();
+            const box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 6);
+            const image = Gtk.Image.new();
+
+            if (speaker.isDefault) {
+                image.set_from_icon_name(
+                    "audio-volume-high-symbolic",
+                    Gtk.IconSize.MENU
+                );
+            }
+
+            box.add(image);
+            box.add(Gtk.Label.new(speaker.description));
+
             item.connect("activate", () => {
                 speaker.set_is_default(true);
             });
-            item.set_active(speaker.isDefault);
+            item.add(box);
+
             menu.append(item);
-            item.show();
+            item.show_all();
         }
     });
 

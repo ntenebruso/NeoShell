@@ -1,4 +1,4 @@
-import { createState, For } from "ags";
+import { createState, For, onCleanup } from "ags";
 import app from "ags/gtk3/app";
 import Astal from "gi://Astal?version=3.0";
 import Apps from "gi://AstalApps";
@@ -69,6 +69,7 @@ export default function Applauncher() {
                 if (event.get_keyval()[1] === Gdk.KEY_Escape) self.hide();
             }}
             visible={false}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <box>
                 <eventbox

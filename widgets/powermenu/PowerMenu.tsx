@@ -3,6 +3,7 @@ import app from "ags/gtk3/app";
 import Astal from "gi://Astal?version=3.0";
 import Gtk from "gi://Gtk?version=3.0";
 import Gdk from "gi://Gdk?version=3.0";
+import { onCleanup } from "ags";
 
 const COMMANDS = [
     {
@@ -57,6 +58,7 @@ export default function PowerMenu() {
                 }
             }}
             visible={false}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <box class="container">
                 {COMMANDS.map((command) => (

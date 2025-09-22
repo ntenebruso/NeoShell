@@ -5,7 +5,7 @@ import Gdk from "gi://Gdk?version=3.0";
 import Gtk from "gi://Gtk?version=3.0";
 import Notifications from "./Notifications";
 import Media from "./Media";
-import { createState } from "ags";
+import { createState, onCleanup } from "ags";
 import { createPoll } from "ags/time";
 
 function hide() {
@@ -43,6 +43,7 @@ export default function SysMenu() {
             onShow={(self) => {
                 setWidth(self.get_current_monitor().workarea.width);
             }}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <box>
                 <box vertical>

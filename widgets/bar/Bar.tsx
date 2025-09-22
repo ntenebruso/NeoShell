@@ -6,7 +6,7 @@ import { idleInhibit } from "./shared";
 import { ModuleManager } from "./utils/module";
 import { registerCoreModules } from "./utils/coreModules";
 import options from "../../options";
-import { For } from "ags";
+import { For, onCleanup } from "ags";
 
 export default function Bar({ monitor }: { monitor: Gdk.Monitor }) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
@@ -24,6 +24,7 @@ export default function Bar({ monitor }: { monitor: Gdk.Monitor }) {
             anchor={TOP | LEFT | RIGHT}
             inhibit={idleInhibit}
             application={app}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <centerbox
                 class="container"

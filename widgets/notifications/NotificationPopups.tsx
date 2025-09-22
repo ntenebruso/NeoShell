@@ -63,6 +63,7 @@ export default function NotificationPopups({
             gdkmonitor={monitor}
             visible={notifications((ns) => ns.length > 0)}
             anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <box orientation={Gtk.Orientation.VERTICAL}>
                 <For each={notifications}>

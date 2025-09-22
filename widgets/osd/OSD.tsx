@@ -1,4 +1,4 @@
-import { createState } from "ags";
+import { createState, onCleanup } from "ags";
 import app from "ags/gtk3/app";
 import { timeout } from "ags/time";
 import Astal from "gi://Astal?version=3.0";
@@ -50,6 +50,7 @@ export default function OSD({ monitor }: { monitor: Gdk.Monitor }) {
             anchor={BOTTOM}
             gdkmonitor={monitor}
             application={app}
+            $={(self) => onCleanup(() => self.destroy())}
         >
             <revealer
                 revealChild={visible}
